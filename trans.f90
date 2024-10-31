@@ -1,64 +1,24 @@
-!PROGRAM IS INTENDED TO CALCULATE CLASSICAL DYNAMICS IN DIABATIC BASIS SET 
-!EN - ONE-DIMENSIONAL ARRAY, CONTAINING DIAGONAL ENERGIES OF THE STATIONARY HAMILTONIAN
-!DMX,DMY,DMZ - TWO-DIMENSIONAL ARRAY, CONTAINING TRANSITION DIPOLES AND DIPOLES
-!COEF - COMPLEX ONE-DIMENSIONAL ARRAY, CONTAINING COEFFICIENTS 
-!EF - REAL TWO-DIMENSIONAL ARRAY, CONTAINING FIELD AT EACH TIME (TIME,ET)
       IMPLICIT NONE
-      INTEGER OUT,OUT1,OUT2,OUT3,OUT4,OUT5,OUT6,OUT7
       INTEGER OUT8,OUT9,OUT10,TOUT1,TOUT2
       INTEGER I1,I2,I3,I4,ID3,INP,Q
       INTEGER N1,N2,N3,N4,K
-      INTEGER IMAX01,IMAX02
-      INTEGER IMAX1,IMAX2,IMAX3,IMAX4,IMAX5
-      INTEGER IMAX6,IMAX7,IMAX8,IMAX9,IMAX10
       INTEGER NSTATES,NS,NG,KT,ING1,ING2,ING3,ING4
       INTEGER NSTEP,DNG,ORDER,NGR,NGH
       REAL*8 H,TSTART,TEND,EV
       REAL*8 M1,M2,MU,V0,KR1,KP1,KR2,KP2
       REAL*8 DX,ND,MD,DI,R0,R,ND1,ND2,ND3,ND4
-    
-
       REAL*8 PI,TFS,WAVENTOAU,EVTOAU
       REAL*8 INFO(11)
       COMMON /INFOS/ INFO
       REAL*8 W(4)
       COMMON /FREQS/ W
 
-
-
       REAL*8, ALLOCATABLE :: EN(:,:),EIG(:)
       CHARACTER (LEN=30) KEY01
       CHARACTER (LEN=30) KEY02
       CHARACTER (LEN=30) KEY03
-      CHARACTER (LEN=30) KEY1
-      CHARACTER (LEN=30) KEY2
-      CHARACTER (LEN=30) KEY3
-      CHARACTER (LEN=30) KEY4
-      CHARACTER (LEN=35) KEY5
-      CHARACTER (LEN=30) KEY6
-      CHARACTER (LEN=30) KEY7
-      CHARACTER (LEN=30) KEY8
-      CHARACTER (LEN=30) KEY9
-      CHARACTER (LEN=30) KEY10
-      CHARACTER (LEN=30) KEY15
-      CHARACTER (LEN=4) EPRINT
       INTEGER ALLSTAT
-!GENERAL OUT
-      INP=80
-      OUT=90
-!EFIELD VS T
-!RUNGE-KUTTA ITERATION
-      TOUT1=92
-!STEPPER INFO
-      TOUT2=93
-      OUT3=94
-      OUT4=95
-      OUT5=96
-      OUT6=97
-      OUT7=98
-      OUT8=99
-      OUT9=100
-      OUT10=110
+
    
     
       WRITE(KEY01,'(A)') "Ueigenvectors_ethLM"
@@ -155,7 +115,7 @@
 !                                                                                                 !
 !                                                                                                 !
 !****************************ELECTRONIC HAMILTONIAN DYN IN DIABATIC BASIS SET*******************************
-      CALL RK_GRID(K,NG,NS,DNG,EN,EIG,KEY10)
+      CALL INITIAL(K,NG,NS,DNG,EN,EIG,KEY10)
       
       DEALLOCATE(EN,EIG)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -167,12 +127,8 @@
 !****************************************FUNCTIONS*************************************************
 !*********************************IMPORTANT NUMERICAL SUBROUTINES*********************************    
 !**************************************************************************************************
-!RKDUMB
-!RUNGE-KUTTA 4-TH ORDER DRIVER
-!USES: rk4,derivs,nucderivs
-!we assume 100 ps calculation
-!files are stored 1ps each
-      SUBROUTINE rk_grid(knum,ng,ns,dng,en,eigs,keyn)
+
+      SUBROUTINE initial(knum,ng,ns,dng,en,eigs,keyn)
 
       common /infos/ info
       real*8 info(11)
